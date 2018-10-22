@@ -3,7 +3,10 @@ import { render } from "react-dom";
 import { StreamerData } from "app";
 import { Streamer } from "./streamer";
 
-const offlineThumbnail = "https://placekitten.com/g/400/200";
+// import stylust file
+require("./index.styl");
+
+const offlineThumbnail = "https://placekitten.com/g/400/100";
 
 const fakeData: StreamerData[] = [
     {
@@ -47,12 +50,6 @@ const fakeData: StreamerData[] = [
         username: "nozzlegear",
         live: false,
         offlineThumbnail: offlineThumbnail
-    },
-    {
-        service: "twitch",
-        username: "finalbosstv",
-        live: true,
-        streamPreviewThumbnail: "https://static-cdn.jtvnw.net/previews-ttv/live_user_finalbosstv-400x200.jpg"
     }
 ];
 
@@ -68,7 +65,7 @@ const fakeData: StreamerData[] = [
     const streamers = fakeData.sort(i => (i.live ? -1 : 1));
 
     const app = (
-        <div>
+        <div id="stream-list">
             {streamers.map((streamer, index) => (
                 <div key={index}>
                     <Streamer streamer={streamer} />

@@ -1,26 +1,26 @@
 {
-  "name": "tde-stream-widget",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "git@github.com:nozzlegear/tde-stream-widget.git",
-  "author": "Joshua Harms <joshua@nozzlegear.com>",
-  "license": "MIT",
-  "dependencies": {
-    "@nozzlegear/railway": "^2.0.0",
-    "jest": "^23.6.0",
-    "react": "^16.5.2",
-    "react-dom": "^16.5.2",
-    "ts-jest": "^23.10.4",
-    "ts-node": "^7.0.1",
-    "ts-node-dev": "^1.0.0-pre.30",
-    "typescript-loader": "^1.1.3",
-    "webpack": "^4.22.0"
-  },
-  "devDependencies": {
-    "@types/react": "^16.4.18",
-    "@types/react-dom": "^16.0.9",
-    "ts-loader": "^5.2.2",
-    "typescript": "^3.1.3",
-    "webpack-cli": "^3.1.2"
-  }
+    "name": "tde-stream-widget",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "git@github.com:nozzlegear/tde-stream-widget.git",
+    "author": "Joshua Harms <joshua@nozzlegear.com>",
+    "license": "MIT",
+    "scripts": {
+        "start": "parcel ./src/index.html"
+    },
+    "dependencies": {
+        "@nozzlegear/railway": "^2.0.0",
+        "jest": "^23.6.0",
+        "react": "^16.5.2",
+        "react-dom": "^16.5.2",
+        "ts-jest": "^23.10.4",
+        "ts-node": "^7.0.1",
+        "ts-node-dev": "^1.0.0-pre.30",
+        "typescript-loader": "^1.1.3",
+        "webpack": "^4.22.0"
+    },
+    "devDependencies": {
+        "@types/react": "^16.4.18",
+        "@types/react-dom": "^16.0.9"
+    }
 }
