@@ -1,57 +1,62 @@
 import * as React from "react";
 import { render } from "react-dom";
-import { StreamerData } from "app";
 import { Streamer } from "./streamer";
+import { FAKE_DATA, offlineThumbnail } from "../shared/fake-data";
+import { TwitchUser, GetUserResponse } from "twitch";
+import { StreamerData } from "app";
 
-// import stylust file
+// import stylus file
 require("./index.styl");
 
-const offlineThumbnail = "https://placekitten.com/g/400/100";
+export interface Props extends React.Props<any> {}
 
-const fakeData: StreamerData[] = [
-    {
-        service: "twitch",
-        username: "ripcanti",
-        live: false,
-        offlineThumbnail: offlineThumbnail
-    },
-    {
-        service: "twitch",
-        username: "bobross",
-        live: true,
-        streamPreviewThumbnail: "https://static-cdn.jtvnw.net/previews-ttv/live_user_bobross-400x200.jpg"
-    },
-    {
-        service: "twitch",
-        username: "calyso",
-        live: false,
-        offlineThumbnail: offlineThumbnail
-    },
-    {
-        service: "twitch",
-        username: "menotyou9",
-        live: false,
-        offlineThumbnail: offlineThumbnail
-    },
-    {
-        service: "twitch",
-        username: "tj_slick",
-        live: false,
-        offlineThumbnail: offlineThumbnail
-    },
-    {
-        service: "twitch",
-        username: "gil_tde",
-        live: false,
-        offlineThumbnail: offlineThumbnail
-    },
-    {
-        service: "twitch",
-        username: "nozzlegear",
-        live: false,
-        offlineThumbnail: offlineThumbnail
+export interface State {
+    loading: boolean;
+    streamers: StreamerData[];
+}
+
+export class App extends React.Component<Props, State> {
+    state: State = {
+        loading: true,
+        streamers: []
+    };
+
+    async componentDidMount() {
+        const result = await fetch("http://localhost:3000/oauth/tde-streamer-widget");
+        const body: GetUserResponse = await result.json();
+
+        this.setState({
+            loading: false,
+            streamers: body.data.map<StreamerData>(u => ({
+                live: false,
+                offlineThumbnail: u.offline_image_url || offlineThumbnail,
+                service: "twitch",
+                username: u.login
+            }))
+        });
     }
-];
+
+    render() {
+        if (this.state.loading) {
+            return (
+                <>
+                    <h1>Loading</h1>
+                    <progress />
+                </>
+            );
+        }
+
+        return (
+            <div id="stream-list">
+                {this.state.streamers.map((streamer, index) => (
+                    <div key={index}>
+                        <Streamer streamer={streamer} />
+                    </div>
+                ))}
+            </div>
+        );
+    }
+}
 
 (async function() {
     const contenthost = document.getElementById("contenthost");
@@ -62,17 +67,5 @@ const fakeData: StreamerData[] = [
         return;
     }
 
-    const streamers = fakeData.sort(i => (i.live ? -1 : 1));
-
-    const app = (
-        <div id="stream-list">
-            {streamers.map((streamer, index) => (
-                <div key={index}>
-                    <Streamer streamer={streamer} />
-                </div>
-            ))}
-        </div>
-    );
-
-    render(app, contenthost);
+    render(<App />, contenthost);
 })();
