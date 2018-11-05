@@ -2,6 +2,7 @@ import { Server as OvernightServer } from "@overnightjs/core";
 import express = require("express");
 import { OAuthController } from "./controllers/oauth";
 import { envVarRequired, envVar } from "./env";
+import cors = require("cors");
 import * as path from "path";
 
 export class Server extends OvernightServer {
@@ -11,6 +12,11 @@ export class Server extends OvernightServer {
         const clientId = envVarRequired("TDE_STREAMER_WIDGET_CLIENT_ID");
         const secretKey = envVarRequired("TDE_STREAMER_WIDGET_CLIENT_SECRET");
 
+        this.app_.use(
+            cors({
+                origin: "http://localhost:1234"
+            })
+        );
         this.app_.use("/dist", express.static(path.join(__dirname, "../../dist")));
         this.app_.use("/", express.static(path.join(__dirname, "../client")));
 
